@@ -25,19 +25,20 @@ public class AuctionStatusScheduler {
     public void checkStatuses() {
         LocalDateTime now = LocalDateTime.now();
 
+        // Check for auctions that should become LIVE
         List<Auction> upcoming = auctionRepository.findByStatus(AuctionStatus.UPCOMING);
-        for (Auction a : upcoming) {
-            if (!a.getStartTime().isAfter(now)) {
-                auctionService.markLive(a);
+        for (Auction auction : upcoming) {
+            if (!auction.getStartTime().isAfter(now)) {
+                auctionService.markLive(auction);  // Transition to LIVE
             }
         }
 
+        // Check for auctions that should be ENDED
         List<Auction> live = auctionRepository.findByStatus(AuctionStatus.LIVE);
-        for (Auction a : live) {
-            if (!a.getEndTime().isAfter(now)) {
-                auctionService.markEnded(a);
+        for (Auction auction : live) {
+            if (!auction.getEndTime().isAfter(now)) {
+                auctionService.markEnded(auction);  // Transition to ENDED
             }
         }
     }
 }
-

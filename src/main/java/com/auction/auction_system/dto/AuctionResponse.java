@@ -4,9 +4,9 @@ import com.auction.auction_system.entity.AuctionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.LocalDateTime;
 
 public class AuctionResponse {
+
     private Long id;
     private String productName;
     private String description;
@@ -17,8 +17,7 @@ public class AuctionResponse {
     private BigDecimal currentHighestBid;
 
     public AuctionResponse(Long id, String productName, String description, BigDecimal reservePrice,
-                           LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status,
-                           BigDecimal currentHighestBid) {
+                           LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status, BigDecimal currentHighestBid) {
         this.id = id;
         this.productName = productName;
         this.description = description;
@@ -29,37 +28,13 @@ public class AuctionResponse {
         this.currentHighestBid = currentHighestBid;
     }
 
-    // getters
-    public Long getId() {
-        return id;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public BigDecimal getReservePrice() {
-        return reservePrice;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public AuctionStatus getStatus() {
-        return status;
-    }
-
-    public BigDecimal getCurrentHighestBid() {
-        return currentHighestBid;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public String getProductName() { return productName; }
+    public String getDescription() { return description; }
+    public BigDecimal getReservePrice() { return reservePrice; }
+    public LocalDateTime getStartTime() { return startTime; }
+    public LocalDateTime getEndTime() { return endTime; }
+    public AuctionStatus getStatus() { return status; }
+    public BigDecimal getCurrentHighestBid() { return currentHighestBid; }
 }
-

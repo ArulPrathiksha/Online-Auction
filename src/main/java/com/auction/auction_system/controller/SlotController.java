@@ -5,33 +5,33 @@ import com.auction.auction_system.service.SlotService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequestMapping("/auctions/slots")
 public class SlotController {
+
     private final SlotService slotService;
 
     public SlotController(SlotService slotService) {
         this.slotService = slotService;
     }
 
-    @GetMapping
-    public List<TimeSlot> availableSlots() {
-        return slotService.getAvailableSlots();
+    @GetMapping("/available")
+    public List<TimeSlot> getAvailableSlots(@RequestParam("date") LocalDate date) {
+        return slotService.getAvailableSlots(date);
     }
 
-    @PostMapping
-    public ResponseEntity<?> createSlot(@RequestBody TimeSlot slot) {
-        // Expect startTime and endTime in ISO-8601 LocalDateTime format in JSON
-        if (slot.getStartTime() == null || slot.getEndTime() == null)
-            return ResponseEntity.badRequest().body("startTime/endTime required");
-        if (!slot.getStartTime().isBefore(slot.getEndTime()))
-            return ResponseEntity.badRequest().body("startTime must be before endTime");
-        if (slot.getStartTime().isBefore(LocalDateTime.now()))
-            return ResponseEntity.badRequest().body("startTime must be future");
-        return ResponseEntity.ok(slotService.createSlot(slot));
+    @PostMapping("/book")
+    public ResponseEntity<?> bookAuctionSlot(@RequestParam("auctionId") Long auctionId,
+                                             @RequestParam("timeSlotId") Long timeSlotId,
+                                             @RequestParam("auctionDate") LocalDate auctionDate) {
+        try {
+            slotService.bookAuctionSlot(auctionId, timeSlotId, auctionDate);
+            return ResponseEntity.ok("Auction booked successfully!");
+        } catch (IllegalStateException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
